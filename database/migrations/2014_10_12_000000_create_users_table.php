@@ -16,7 +16,10 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->enum('pronouns',['','She/Her','He/Him','They/Them']);
+            $table->string('default_email')->unique();
+            $table->string('account_type',32);
+            $table->foreign('account_type',)->references('type')->on('account_types');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
