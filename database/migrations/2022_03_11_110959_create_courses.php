@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->string('join_code',7);
+            $table->string('join_code',7)->unique();
             $table->string('code',15);
             $table->tinyText('title');
             $table->timestamps();

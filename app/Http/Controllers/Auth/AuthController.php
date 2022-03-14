@@ -16,7 +16,7 @@ class AuthController extends Controller
         $rules = [
             'name' => 'required|string',
             'pronouns' => 'present|in:,She/Her,He/Him,They/Them' ,
-            'default_email' => 'required|string|unique:users,default_email',
+            'email' => 'required|string|unique:users,email',
             'account_type' => 'required|string|in:Teacher,Student',
             'password' => 'required|string|min:6|confirmed'
         ];
@@ -43,11 +43,11 @@ class AuthController extends Controller
         $model = User::create([
            'name' => $request->get('name'),
            'pronouns' => $request->get('pronouns'),
-           'default_email' => $request->get('default_email'),
+           'email' => $request->get('email'),
            'account_type' => $request->get('account_type'),
            'password' => $request->get('password'),
         ]);
-        $model_detail = $request->get('account_type') == 'Student' ?
+        $model_detail = (isset($model) && $request->get('account_type') == 'Student') ?
             $model->studentDetails()->create([
                 'title' => $request->get('title'),
                 'biography' => $request->get('biography')
@@ -63,12 +63,12 @@ class AuthController extends Controller
         return $this->responseTrait([
             'code' => null,
             'message' => $request->route()->getName(),
-            'result' => $model
+            'result' => array_merge($model->toArray(),$model_detail->toArray())
         ], 'create');
     }
 
     public function read(Request $request){
-        $result = User::where('default_email',$request->get('email'))->first();
+        $result = User::where('email',$request->get('email'))->first();
         $available = $result !=null && Hash::check($request->get('password'),$result->password);
         if($available){
 //            $token =  $this->token([

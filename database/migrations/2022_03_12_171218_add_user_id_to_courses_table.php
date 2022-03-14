@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('courses_to_syllabus', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('course_id');
-            $table->foreign('course_id')->references('id')->on('courses');
-            $table->text('syllabus')->nullable();
-            $table->timestamps();
+        Schema::table('courses', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -29,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('courses_to_syllabus');
+        Schema::table('courses', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+        });
     }
 };
