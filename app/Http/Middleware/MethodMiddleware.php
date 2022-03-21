@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
-class HttpMethodMiddleware
+class MethodMiddleware
 {
     /**
      * Handle an incoming request.

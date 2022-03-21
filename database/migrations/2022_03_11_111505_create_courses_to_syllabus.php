@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('course_id');
             $table->foreign('course_id')->references('id')->on('courses');
-            $table->text('syllabus')->nullable();
+            $table->text('body')->nullable();
             $table->timestamps();
         });
     }

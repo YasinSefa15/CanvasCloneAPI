@@ -17,8 +17,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::view('/home','home');
+
 Route::controller(AccountTypeController::class)
-    ->middleware('http.request')
+    ->middleware('method')
     ->name('account.')
     ->prefix('account-type')
     ->group(function(){
@@ -30,7 +32,7 @@ Route::any('/login',[AuthController::class,'read'])->name('login');
 Route::any('/register',[AuthController::class,'create'])->name('register');
 
 Route::controller(UserController::class)
-    ->middleware('http.request')
+    ->middleware('method')
     ->name('user.')
     ->prefix('users')
     ->group(function(){
@@ -41,13 +43,13 @@ Route::controller(UserController::class)
     });
 
 Route::controller(CourseController::class)
-    ->middleware('http.request')
+    ->middleware('method')
     ->name('course.')
     ->prefix('courses')
     ->group(function(){
        Route::any('/create','create')->name('create');
        Route::any('','read')->name('read');
-       Route::any('/update/{user_id}','update')->name('update');
-       Route::any('/view/{user_id}','view')->name('view');
+       Route::any('/update/{course_id}','update')->name('update');
+       Route::any('/view/{course_id}','view')->name('view');
     });
 

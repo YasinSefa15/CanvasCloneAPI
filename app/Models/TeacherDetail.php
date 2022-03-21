@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TeacherDetail extends Model
 {
     use HasFactory;
-    protected $table = 'teacher_to_details';
+    protected $table = 'teacher_details';
 
     protected $hidden = [
         'updated_at',

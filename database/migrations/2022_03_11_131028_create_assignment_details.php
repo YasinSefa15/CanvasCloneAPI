@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('courses', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+        Schema::create('assignment_details', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('assignment_id');
+            $table->foreign('assignment_id')->references('id')->on('assignments');
+            $table->text('body');
+            $table->timestamps();
         });
     }
 
@@ -26,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('courses', function (Blueprint $table) {
-            $table->dropColumn('user_id');
-        });
+        Schema::dropIfExists('assignment_details');
     }
 };

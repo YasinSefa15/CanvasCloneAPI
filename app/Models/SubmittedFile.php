@@ -5,19 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StudentDetail extends Model
+class SubmittedFile extends Model
 {
     use HasFactory;
-    protected $table = 'student_details';
 
-    protected $hidden = [
-        'updated_at',
-        'created_at'
-    ];
+    public $table = 'submitted_files';
 
     protected $fillable = [
+        'assignment_id',
         'user_id',
-        'title',
-        'biography'
+        'file_path',
+        'file_name'
     ];
 }

@@ -5,22 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Course extends Model
+class AttachedFilesToAssignment extends Model
 {
     use HasFactory;
 
+    public $table = 'attached_files_to_assignments';
+
     protected $fillable = [
-        'join_code',
-        'code',
-        'title'
+      'assignment_id',
+      'file_path',
+      'file_name'
     ];
 
     protected $hidden = [
-        'updated_at',
-        'created_at'
+      'created_at',
+      'updated_at'
     ];
-
-    public function syllabus(){
-        return $this->hasOne(Syllabus::class);
-    }
 }

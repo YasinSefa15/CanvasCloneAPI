@@ -13,21 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('teacher_to_details', function (Blueprint $table) {
+        Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-//            $table->tinyText('first_name');
-//            $table->tinyText('last_name');
-            $table->string('phone',10);
-            $table->tinyText('country');
-            $table->enum('organization_type',[
-                'Further Education',
-                'Corporate Education',
-                'Government'
-            ]);
-            $table->tinyText('job_title');
-            $table->tinyText('school_organization');
+            $table->unsignedBigInteger('course_id');
+            $table->foreign('course_id')->references('id')->on('courses');
             $table->timestamps();
         });
     }
@@ -39,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teacher_to_details');
+        Schema::dropIfExists('enrollments');
     }
 };

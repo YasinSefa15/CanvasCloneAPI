@@ -5,22 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Course extends Model
+class Enrollment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'join_code',
-        'code',
-        'title'
+      'user_id',
+      'course_id'
     ];
 
     protected $hidden = [
-        'updated_at',
-        'created_at'
+      'created_at',
+      'updated_at'
     ];
-
-    public function syllabus(){
-        return $this->hasOne(Syllabus::class);
-    }
 }

@@ -13,13 +13,21 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('assignment_to_attached_files', function (Blueprint $table) {
+        Schema::create('teacher_details', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('assignment_id');
-            $table->foreign('assignment_id')->references('id')->on('assignments');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('file_path');
+//            $table->tinyText('first_name');
+//            $table->tinyText('last_name');
+            $table->string('phone',10);
+            $table->tinyText('country');
+            $table->enum('organization_type',[
+                'Further Education',
+                'Corporate Education',
+                'Government'
+            ]);
+            $table->tinyText('job_title');
+            $table->tinyText('school_organization');
             $table->timestamps();
         });
     }
@@ -31,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assignment_to_attached_files');
+        Schema::dropIfExists('teacher_details');
     }
 };

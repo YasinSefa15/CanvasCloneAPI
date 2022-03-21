@@ -72,7 +72,8 @@ class CourseController extends Controller
         $rules = [
             'title' => 'required|string|max:255',
             'code' => 'required|string|max:15',
-            'syllabus' => 'nullable|string'
+            'syllabus' => 'nullable|string',
+            "file" => "nullable|mimes:pdf|max:10000"
         ];
 
         $validation = $this->validator($request->all(),$rules);
@@ -81,6 +82,11 @@ class CourseController extends Controller
         }
 
         $result = Course::where('id',$id)->update($request->all());
+
+        if ($request->get('file')){
+            dd("yes");
+        }
+
         return $this->responseTrait([
             'code' => null,
             'message' => $request->route()->getName(),

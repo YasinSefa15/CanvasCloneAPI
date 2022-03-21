@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('course_id')->references('id')->on('courses');
             $table->tinyText('title');
             $table->dateTime('due_date');
+            /** todo : what can be the other options? */
             //$table->enum('submitting',['a file upload']);
             $table->timestamps();
         });
