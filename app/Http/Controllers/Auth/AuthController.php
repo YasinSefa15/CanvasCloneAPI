@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Traits\ResponseTrait;
+use App\Traits\TokenTrait;
 use App\Traits\ValidatorTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    use ResponseTrait, ValidatorTrait;
+    use ResponseTrait, ValidatorTrait, TokenTrait;
     public function create(Request $request){
         $rules = [
             'name' => 'required|string',
@@ -68,20 +69,29 @@ class AuthController extends Controller
     }
 
     public function read(Request $request){
+        $rules = [
+            'email' => 'required|email',
+            'password' =>'required|string|min:6'
+        ];
+        $validation = $this->validator($request->all(),$rules);
+        if (isset($validation)){
+            return $validation;
+        }
+
         $result = User::where('email',$request->get('email'))->first();
         $available = $result !=null && Hash::check($request->get('password'),$result->password);
         if($available){
-//            $token =  $this->token([
-//                'device' => $request->header('x-device'),
-//                'user_id' => $result->id
-//            ]);
+            $token =  $this->token([
+                'device' => $request->header('x-device'),
+                'user_id' => $result->id
+            ]);
         }
         return ($available) ?
             $this->responseTrait([
                 'code' => null,
                 'message' => "Giriş işlemi",
                 'result' => $result,
-                //'token' => $token
+                'token' => $token
             ], 'read') :
             $this->responseTrait([
                 'code' => null,

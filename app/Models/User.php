@@ -55,6 +55,13 @@ class User extends Authenticatable
         );
     }
 
+    protected function email(): Attribute
+    {
+        return Attribute::make(
+            set: fn ($value) => Str::lower($value),
+        );
+    }
+
     protected function accountType(): Attribute
     {
         return Attribute::make(

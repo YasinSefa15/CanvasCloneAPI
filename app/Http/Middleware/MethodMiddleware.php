@@ -23,6 +23,7 @@ class MethodMiddleware
             'view' => 'get',
             'read' => 'get',
             'update' => 'put',
+            'delete' => 'delete',
             'login' => 'post',
             'register' => 'post'
             ];

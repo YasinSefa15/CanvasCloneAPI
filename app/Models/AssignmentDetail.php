@@ -9,10 +9,11 @@ class AssignmentDetail extends Model
 {
     use HasFactory;
 
-    public $table = 'assigments_details';
+    public $table = 'assignment_details';
 
     protected $fillable = [
-      'body'
+        'assignment_id',
+        'body'
     ];
 
     protected $hidden = [

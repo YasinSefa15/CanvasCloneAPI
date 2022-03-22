@@ -19,4 +19,8 @@ class Assignment extends Model
       'created_at',
       'updated_at'
     ];
+
+    public function detail(){
+        return $this->hasOne(AssignmentDetail::class);
+    }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\DeviceMiddleware;
 use App\Http\Middleware\MethodMiddleware;
+use App\Http\Middleware\TokenMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -45,6 +47,10 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+        'authenticated' => [
+            DeviceMiddleware::class,
+            TokenMiddleware::class
+        ]
     ];
 
     /**
@@ -64,6 +70,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'method' => MethodMiddleware::class
+        'method' => MethodMiddleware::class,
+        'device' => DeviceMiddleware::class
     ];
 }
