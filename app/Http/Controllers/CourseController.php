@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Assignment;
 use App\Models\Course;
 use App\Models\Enrollment;
-use App\Models\Syllabus;
 use App\Traits\ResponseTrait;
 use App\Traits\ValidatorTrait;
 use Illuminate\Http\Request;
@@ -20,7 +18,7 @@ class CourseController extends Controller
         $rules = [
             'title' => 'required|string|max:255',
             'code' => 'required|string|max:15',
-            'syllabus' => 'nullable|string',
+            'syllabus' => 'nullable|string|max:65535',
         ];
 
         $validation = $this->validator($request->all(),$rules);
@@ -66,6 +64,7 @@ class CourseController extends Controller
         ], 'read');
     }
 
+    /** todo : hmmm */
     public function view(Request $request,$id){
         if ($request->get('type')){
             $result = DB::table('courses_to_syllabus')
@@ -83,11 +82,11 @@ class CourseController extends Controller
         ], 'view');
     }
 
-    public function update(Request $request,$id){
+    public function update(Request $request,$course_id){
         $rules = [
-            'title' => 'required|string|max:255',
-            'code' => 'required|string|max:15',
-            'syllabus' => 'nullable|string'
+            'title' => 'nullable|string|max:255',
+            'code' => 'nullable|string|max:15',
+            'syllabus' => 'nullable|string|max:65535'
         ];
 
         $validation = $this->validator($request->all(),$rules);
@@ -95,10 +94,18 @@ class CourseController extends Controller
             return $validation;
         }
 
-        $result = Course::where('id',$id)->update($request->only([
+        $result = Course::where('id',$course_id)->first();
+
+        $result->update($request->only([
             'title',
             'code',
         ]));
+
+        if($request->get('syllabus')){
+            $result->syllabus()->update($request->only(['syllabus']));
+        }
+
+        $result->syllabus = $result->syllabus()->first();
 
         return $this->responseTrait([
             'code' => null,

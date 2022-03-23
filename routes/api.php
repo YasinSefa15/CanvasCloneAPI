@@ -4,23 +4,10 @@ use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\AssignmentController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\FileDownloadController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-//in development to see upload and read files work clearly. won't be in the production
-Route::view('/','home')->name('home');
 
 Route::any('/login',[AuthController::class,'read'])
     ->middleware('device')
@@ -60,7 +47,7 @@ Route::controller(UserController::class)
     });
 
 Route::controller(CourseController::class)
-    ->middleware(['method','authenticated'])
+//    ->middleware(['method','authenticated'])
     ->name('course.')
     ->prefix('courses')
     ->group(function(){
@@ -73,12 +60,20 @@ Route::controller(CourseController::class)
 Route::controller(AssignmentController::class)
 //    ->middleware(['method','authenticated'])
     ->name('assignment.')
-    ->prefix('courses/{id}/assignments')
+    ->prefix('courses/{course_id}/assignments')
     ->group(function(){
         Route::any('/create','create')->name('create');
         Route::any('','read')->name('read');
-        Route::any('/update/{course_id}','update')->name('update');
-        Route::any('/{course_id}','view')->name('view');
+        Route::any('/update/{assignment_id}','update')->name('update-form');
+        Route::any('/{assignment_id}','view')->name('view');
     });
 
+/** todo : if user has a relation with given course id then its ok. Will be controlled in the middleware. If user enrolled that course check whether that file belongs to s/he.*/
+Route::controller(FileDownloadController::class)
+    ->middleware('method')
+    ->prefix('courses/{course_id}/')
+    ->group(function (){
+        Route::any('submitted-file/{file_id}','submitted')->name('submitted.download');
+        Route::any('attached-file/{file_id}','attached')->name('attached.download');
+    });
 

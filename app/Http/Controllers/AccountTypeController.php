@@ -42,6 +42,7 @@ class AccountTypeController extends Controller
     public function delete(Request $request, $id){
         /** TODO : where?*/
         $result = DB::table('account_types')
+            ->where('id','=',$id)
             ->delete($id);
         return $this->responseTrait([
             'code' => null,

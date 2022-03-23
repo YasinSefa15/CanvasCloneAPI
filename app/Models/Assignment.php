@@ -23,4 +23,8 @@ class Assignment extends Model
     public function detail(){
         return $this->hasOne(AssignmentDetail::class);
     }
+
+    public function attachedFile(){
+        return $this->hasOne(AttachedFilesToAssignment::class);
+    }
 }

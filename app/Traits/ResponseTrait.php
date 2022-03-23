@@ -13,6 +13,7 @@ trait ResponseTrait
             'code' => $config['code'],
             'message' => $config['message']
         ],$type);
+
         return response()->json($config,$config['code']);
     }
 
@@ -26,7 +27,10 @@ trait ResponseTrait
             $config['code'] = Response::HTTP_OK;
         }elseif ($type == 'create'){
             $config['code'] = Response::HTTP_CREATED;
-        }else{
+        }elseif ($type == 'download'){
+            $config['code'] = Response::HTTP_OK;
+        }
+        else{
             $config['code'] = Response::HTTP_BAD_REQUEST;
         }
         return $config;

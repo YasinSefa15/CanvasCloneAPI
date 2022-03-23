@@ -23,7 +23,9 @@ class MethodMiddleware
             'view' => 'get',
             'read' => 'get',
             'update' => 'put',
+            'update-form' => 'post', //sending data in form-data
             'delete' => 'delete',
+            'download' => 'get',
             'login' => 'post',
             'register' => 'post'
             ];

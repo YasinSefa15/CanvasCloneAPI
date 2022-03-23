@@ -11,7 +11,8 @@ trait APIMessage
         'create' => 'oluşturma',
         'update' => 'güncelleme',
         'read' => 'görüntüleme',
-        'view' => 'görüntüleme'
+        'view' => 'görüntüleme',
+        'download' => 'indirme'
     ];
 
     public function APIMessage(array $config,string $type = null){
